@@ -1,0 +1,130 @@
+EVIDÊNCIAS DE EXECUÇÃO DO DETRAN MQTT NO WINDOWS
+Data local: 04/10/2026 (America/Fortaleza)
+Origem: trechos das saídas de PowerShell fornecidas pelo usuário.
+Este arquivo reúne trechos; não representa uma transcrição completa do terminal.
+
+1. BUILD
+
+PS C:\Users\Joseph\Downloads\DetranMQTT> docker compose build cadastro
+[+] Building 67.6s (19/19) FINISHED
+[+] build 1/1
+ ✔ Image detran-mqtt:1.0 Built                                                                                     68.8s
+
+2. INICIALIZAÇÃO
+
+PS C:\Users\Joseph\Downloads\DetranMQTT> docker compose up -d
+ ✔ Container detranmqtt-mosquitto-1 Healthy                                                                         7.2s
+ ✔ Container detranmqtt-veiculos-1  Started                                                                         8.6s
+ ✔ Container detranmqtt-denatran-1  Started                                                                         7.9s
+ ✔ Container detranmqtt-multas-1    Started                                                                         7.2s
+ ✔ Container detranmqtt-cadastro-1  Started                                                                         7.5s
+
+3. TESTE AUTOMÁTICO
+
+PS C:\Users\Joseph\Downloads\DetranMQTT> docker compose run --rm verificar
+DEMONSTRAÇÃO: 6 condutores, 6 veículos e 8 multas fictícias em SE e BA.
+Ano principal: 2026; ano de controle: 2025
+[OK 4/10] Cadastrar condutor: 6 CPFs válidos, em duas UFs.
+[OK 1/10] Emplacar veículo: 6 placas, com modelo, valor, proprietário e ano.
+[OK 2/10] IPVA: R$ 50.000,00 × 2% = R$ 1.000,00.
+[OK 3/10] Transferir proprietário: novo CPF validado; histórico de uma transferência.
+[OK 5/10] Lançar multa: 8 multas; cada registro preserva o condutor da época.
+[OK 6/10] Veículos emplacados por ano: 5 atuais e 1 do ano de controle; consulta reúne SE/BA.
+[OK 7/10] Multas do veículo/ano: CPF e nome do antigo e do novo proprietário preservados.
+[OK 8/10] Multas do condutor/ano: 1 do antigo proprietário e 2 do novo.
+[OK 9/10] Multas por ano: 7 no ano principal e 1 no ano de controle, sem duplicação de mensagem.
+[OK 10/10] Top 5 nacional: soma de pontos de todo o histórico, ordem decrescente e desempate por CPF.
+[OK] Extras: mensagem repetida, transferência repetida, duplicidades, CPF inválido e pontuação inválida.
+DADOS_DA_DEMONSTRACAO=[{"cpf":"53514238804","placa":"QGV3U65","uf":"SE"},{"cpf":"64007556598","placa":"QYC3Y17","uf":"BA"},{"cpf":"74744516890","placa":"SEH8E68","uf":"SE"},{"cpf":"36475026263","placa":"DZA4Z28","uf":"BA"},{"cpf":"76442045986","placa":"BRA1S95","uf":"SE"},{"cpf":"93600799606","placa":"GAT3V47","uf":"BA"}]
+SUCESSO: 10/10 funcionalidades verificadas com comunicação MQTT real.
+
+4. CONSULTA MANUAL DO IPVA
+
+Opção: 2
+Placa: QGV3U65
+{
+  "ok" : true,
+  "resultado" : {
+    "placa" : "QGV3U65",
+    "valorVeiculo" : "50000.00",
+    "aliquota" : "0.02",
+    "ipva" : "1000.00"
+  },
+  "id" : "77a1db12-ab15-43d2-b566-4b666305f8fa"
+}
+
+5. CONSULTA MANUAL DAS MULTAS DO VEÍCULO
+
+Opção: 7
+Placa: QGV3U65
+Ano: 2026
+{
+  "ok" : true,
+  "resultado" : [ {
+    "id" : "9fd504ce-b22b-4b55-8ab3-ba54d5d3263b",
+    "uf" : "SE",
+    "placa" : "QGV3U65",
+    "ano" : 2026,
+    "descricao" : "Infração fictícia antes da transferência",
+    "pontuacao" : 7,
+    "condutor" : {
+      "cpf" : "53514238804",
+      "nome" : "Condutor Demo 1",
+      "uf" : "SE"
+    },
+    "lancadaEm" : "2026-10-05T01:41:05.986282239Z"
+  }, {
+    "id" : "ba079893-40bf-418a-8d5d-bafa3a3d6141",
+    "uf" : "BA",
+    "placa" : "QGV3U65",
+    "ano" : 2026,
+    "descricao" : "Infração fictícia depois da transferência",
+    "pontuacao" : 6,
+    "condutor" : {
+      "cpf" : "64007556598",
+      "nome" : "Condutor Demo 2",
+      "uf" : "BA"
+    },
+    "lancadaEm" : "2026-10-05T01:41:11.483807227Z"
+  } ],
+  "id" : "ebd70b1a-6281-4aaf-88ef-2b4018573281"
+}
+
+6. CONSULTA MANUAL DO TOP 5
+
+Opção: 10
+{
+  "ok" : true,
+  "resultado" : [ {
+    "cpf" : "64007556598",
+    "nome" : "Condutor Demo 2",
+    "uf" : "BA",
+    "totalPontos" : 11,
+    "totalMultas" : 2
+  }, {
+    "cpf" : "53514238804",
+    "nome" : "Condutor Demo 1",
+    "uf" : "SE",
+    "totalPontos" : 10,
+    "totalMultas" : 2
+  }, {
+    "cpf" : "74744516890",
+    "nome" : "Condutor Demo 3",
+    "uf" : "SE",
+    "totalPontos" : 4,
+    "totalMultas" : 1
+  }, {
+    "cpf" : "36475026263",
+    "nome" : "Condutor Demo 4",
+    "uf" : "BA",
+    "totalPontos" : 3,
+    "totalMultas" : 1
+  }, {
+    "cpf" : "76442045986",
+    "nome" : "Condutor Demo 5",
+    "uf" : "SE",
+    "totalPontos" : 2,
+    "totalMultas" : 1
+  } ],
+  "id" : "ae1e0861-34da-4e16-96ca-9c9da745310a"
+}

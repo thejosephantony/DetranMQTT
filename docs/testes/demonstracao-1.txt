@@ -1,0 +1,15 @@
+DEMONSTRAÇÃO: 6 condutores, 6 veículos e 8 multas fictícias em SE e BA.
+Ano principal: 2026; ano de controle: 2025
+[OK 4/10] Cadastrar condutor: 6 CPFs válidos, em duas UFs.
+[OK 1/10] Emplacar veículo: 6 placas, com modelo, valor, proprietário e ano.
+[OK 2/10] IPVA: R$ 50.000,00 × 2% = R$ 1.000,00.
+[OK 3/10] Transferir proprietário: novo CPF validado; histórico de uma transferência.
+[OK 5/10] Lançar multa: 8 multas; cada registro preserva o condutor da época.
+[OK 6/10] Veículos emplacados por ano: 5 atuais e 1 do ano de controle; consulta reúne SE/BA.
+[OK 7/10] Multas do veículo/ano: CPF e nome do antigo e do novo proprietário preservados.
+[OK 8/10] Multas do condutor/ano: 1 do antigo proprietário e 2 do novo.
+[OK 9/10] Multas por ano: 7 no ano principal e 1 no ano de controle, sem duplicação de mensagem.
+[OK 10/10] Top 5 nacional: soma de pontos de todo o histórico, ordem decrescente e desempate por CPF.
+[OK] Extras: mensagem repetida, transferência repetida, duplicidades, CPF inválido e pontuação inválida.
+DADOS_DA_DEMONSTRACAO=[{"cpf":"81894591208","placa":"RPA6B61","uf":"SE"},{"cpf":"44611741826","placa":"ULI2G00","uf":"BA"},{"cpf":"26156676619","placa":"NOL5G39","uf":"SE"},{"cpf":"18666052759","placa":"ORZ0B16","uf":"BA"},{"cpf":"09214682534","placa":"SGY0U68","uf":"SE"},{"cpf":"63454622760","placa":"ECH9D26","uf":"BA"}]
+SUCESSO: 10/10 funcionalidades verificadas com comunicação MQTT real.

@@ -1,0 +1,97 @@
+name: detranmqtt
+
+x-app: &app
+  image: detran-mqtt:1.0
+  build: .
+  init: true
+  restart: unless-stopped
+  mem_limit: 256m
+  stop_grace_period: 20s
+  environment:
+    MQTT_BROKER: tcp://mosquitto:1883
+    MQTT_PREFIX: ${MQTT_PREFIX:-detran}
+    DATA_DIR: /dados
+  depends_on:
+    mosquitto:
+      condition: service_healthy
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    mem_limit: 128m
+    ports:
+      - "127.0.0.1:1883:1883"
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mqtt_data:/mosquitto/data
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "127.0.0.1", "-t", "detran/saude", "-m", "ok", "-q", "1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  cadastro:
+    <<: *app
+    command: ["servico", "cadastro"]
+    volumes:
+      - cadastro_data:/dados
+
+  veiculos:
+    <<: *app
+    command: ["servico", "veiculos"]
+    volumes:
+      - veiculos_data:/dados
+
+  multas:
+    <<: *app
+    command: ["servico", "multas"]
+    volumes:
+      - multas_data:/dados
+
+  denatran:
+    <<: *app
+    command: ["servico", "denatran"]
+    volumes:
+      - denatran_data:/dados
+
+  cliente:
+    <<: *app
+    profiles: ["ferramentas"]
+    restart: "no"
+    stdin_open: true
+    tty: true
+    command: ["menu", "SE"]
+
+  verificar:
+    <<: *app
+    profiles: ["ferramentas"]
+    restart: "no"
+    command: ["verificar"]
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      cadastro:
+        condition: service_started
+      veiculos:
+        condition: service_started
+      multas:
+        condition: service_started
+      denatran:
+        condition: service_started
+
+  testes:
+    profiles: ["ferramentas"]
+    image: detran-mqtt-testes:1.0
+    build:
+      context: .
+      target: testes
+    command: ["mvn", "-B", "test"]
+
+volumes:
+  mqtt_data:
+  cadastro_data:
+  veiculos_data:
+  multas_data:
+  denatran_data:

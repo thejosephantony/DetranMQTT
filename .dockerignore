@@ -1,0 +1,10 @@
+.git
+target
+dist
+dados
+evidencias
+*.zip
+*.log
+.idea
+.vscode
+nbproject/private

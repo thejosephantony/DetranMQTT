@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "etapas": [
+    "Dez operações, duas UFs, histórico de multa, filtros, ranking, reenvios e entradas inválidas",
+    "Reconexão automática dos quatro serviços após reinício do broker",
+    "Persistência após reinício completo do broker e dos serviços",
+    "Reconstrução do DENATRAN vazio a partir de snapshots MQTT retidos",
+    "Demonstração repetida sem apagar os registros anteriores",
+    "Dois clientes simultâneos, com DETRANs de AC e DF"
+  ],
+  "resumoFinal": {
+    "abrangencia": "nacional",
+    "ufsComDados": [
+      "AC",
+      "BA",
+      "DF",
+      "SE"
+    ],
+    "condutores": 14,
+    "veiculos": 12,
+    "multas": 16
+  }
+}

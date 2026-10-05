@@ -1,0 +1,8 @@
+{
+  "abrangencia" : "nacional",
+  "ufsComDados" : [ "AC", "BA", "DF", "SE" ],
+  "condutores" : 14,
+  "veiculos" : 12,
+  "multas" : 16
+}
+AUDITORIA OK: referências, dados persistidos e ranking nacional consistentes.

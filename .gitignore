@@ -1,0 +1,13 @@
+/target/
+/dist/
+/dados/
+/evidencias/
+*.log
+*.zip
+.idea/
+.vscode/
+nbproject/private/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
