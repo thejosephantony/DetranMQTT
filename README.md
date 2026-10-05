@@ -4,7 +4,7 @@ Implementação da Atividade 01 – Pub/Sub de Sistemas Distribuídos (UFS): cad
 
 ## Execução confirmada no Windows
 
-Em **4 de outubro de 2026 (America/Fortaleza)**, a execução via Docker Compose foi confirmada pelas saídas do PowerShell: imagem `detran-mqtt:1.0` construída, broker saudável, quatro microsserviços iniciados e teste automático com **SUCESSO: 10/10 funcionalidades verificadas com comunicação MQTT real**.
+a execução via Docker Compose foi confirmada pelas saídas do PowerShell: imagem `detran-mqtt:1.0` construída, broker saudável, quatro microsserviços iniciados e teste automático com **SUCESSO: 10/10 funcionalidades verificadas com comunicação MQTT real**.
 
 Também foram conferidas pelo menu:
 
