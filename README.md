@@ -20,8 +20,6 @@ Os valores acima pertencem à demonstração fictícia executada. Cada nova exec
 
 ## Comece aqui no Windows
 
-Extraia **o conteúdo do ZIP** para `C:\Users\Joseph\Downloads\DetranMQTT`. Nessa pasta devem aparecer `pom.xml`, `Dockerfile`, `compose.yaml` e `src`, sem outra pasta intermediária.
-
 Abra o Docker Desktop e aguarde o mecanismo iniciar. No PowerShell:
 
 ```powershell
@@ -281,7 +279,7 @@ Os comandos Docker diretos funcionam sem mudar políticas do PowerShell.
 
 Você pode manter os serviços no Docker e executar apenas o cliente Java na IDE. A classe principal é `br.ufs.detran.Main`; use argumentos `menu SE`. Com o broker Docker iniciado, o padrão `tcp://localhost:1883` funciona no host.
 
-O ZIP já inclui o executável com dependências:
+A pasta já inclui o executável com dependências:
 
 ```powershell
 java -jar .\dist\detran.jar --help
